@@ -9,7 +9,10 @@ import (
 
 type UserRepository interface {
 	FindByEmail(context.Context, string) (*entity.User, error)
-	Find(ctx context.Context) ([]*entity.UserWithRole, error)
+	Find(context.Context) ([]*entity.UserWithRole, error)
+	FindById(context.Context, int64) (*entity.User, error)
+	Upsert(context.Context, *entity.User) error
+	DeleteById(context.Context, int64) error
 }
 
 type userRepository struct {
@@ -28,6 +31,8 @@ type roleRightRepository struct {
 type UserRoleRepository interface {
 	FindByUserId(context.Context, int64) (*entity.UserRoles, error)
 	FindByUserIds(context.Context, []int64) ([]*entity.UserRoles, error)
+	Create(context.Context, *entity.UserRoles) error
+	DeleteByUserId(context.Context, int64) error
 }
 type userRoleRepository struct {
 	gorm *gorm.DB

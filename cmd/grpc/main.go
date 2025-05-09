@@ -10,6 +10,7 @@ import (
 	"tablelink/src/app"
 	"tablelink/src/repository"
 	"tablelink/src/service"
+	"tablelink/transaction"
 
 	tablelink_grpc "tablelink/src/grpc"
 
@@ -18,6 +19,7 @@ import (
 )
 
 type repositories struct {
+	gormTransaction    transaction.GormTransactionRepository
 	userRepository     repository.UserRepository
 	rolesRepository    repository.RoleRightRepository
 	userRoleRepository repository.UserRoleRepository
@@ -69,11 +71,13 @@ func newService() service.UsersService {
 		repo.userRepository,
 		repo.rolesRepository,
 		repo.userRoleRepository,
+		repo.gormTransaction,
 	)
 }
 
 func newRepositories() repositories {
 	return repositories{
+		gormTransaction:    transaction.NewGormTransactionRepository(app.GormDB()),
 		userRepository:     repository.NewUserRepository(app.GormDB()),
 		rolesRepository:    repository.NewRoleRightRepository(app.GormDB()),
 		userRoleRepository: repository.NewUserRoleRepository(app.GormDB()),

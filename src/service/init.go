@@ -3,6 +3,7 @@ package service
 import (
 	"tablelink/src/grpc"
 	"tablelink/src/repository"
+	"tablelink/transaction"
 )
 
 type UsersService interface {
@@ -20,6 +21,7 @@ type usersService struct {
 	userRepository      repository.UserRepository
 	userRoleRepository  repository.UserRoleRepository
 	roleRightRepository repository.RoleRightRepository
+	gormTransaction     transaction.GormTransactionRepository
 }
 
 func NewUsersService(
@@ -27,11 +29,13 @@ func NewUsersService(
 	userRepository repository.UserRepository,
 	roleRightRepository repository.RoleRightRepository,
 	userRoleRepository repository.UserRoleRepository,
+	gormTransaction transaction.GormTransactionRepository,
 ) UsersService {
 	return &usersService{
 		authenticationService: authenticationService,
 		userRepository:        userRepository,
 		userRoleRepository:    userRoleRepository,
 		roleRightRepository:   roleRightRepository,
+		gormTransaction:       gormTransaction,
 	}
 }
