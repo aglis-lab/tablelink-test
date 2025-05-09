@@ -1,0 +1,21 @@
+version: "3.9"
+
+services:
+  postgres-tablelink:
+    image: postgres:16
+    container_name: postgres-tablelink
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRESQL_USERNAME}
+      POSTGRES_PASSWORD: ${POSTGRESQL_PASSWORD}
+      POSTGRES_DB: ${POSTGRESQL_DATABASE}
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+  redis-tablelink:
+    image: redis
+    container_name: redis-tablelink
+    restart: always
+    ports:
+      - "6379:6379"
